@@ -1,0 +1,214 @@
+{% extends 'layouts/dashboard.html' %}
+
+{% set content_class = 'p-0 pt-10' %}
+
+{% block dashboard %}
+<div id="result-layout" class="grid grid-flow-row-dense grid-cols-1 lg:grid-cols-7 w-full">
+    <div class="card-img-overlay p-3 pb-5 content--wrapper lg:fixed lg:w-80">
+        <div class="content--area placeholder-glow">
+            <div class="liquid-ball placeholder">
+                <div class="ball-inner">
+                    <div class="ball-percent"></div>
+                    <div class="ball-water"></div>
+                    <div class="ball-glare"></div>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4 pt-4 mx-auto">
+                <dl class="text-white divide-y divide-gray-200 dark:text-white dark:divide-gray-700">
+                    <div class="flex justify-between">
+                        <dt class="text-neutral-50 whitespace-nowrap me-5 dark:text-neutral-400">Total Marks</dt>
+                        <dd id="total-marks" class="text-lg whitespace-nowrap font-semibold">- N/A -</dd>
+                    </div>
+                    <div class="flex justify-between pt-3">
+                        <dt class="text-neutral-50 whitespace-nowrap me-5 dark:text-neutral-400">Exam Title</dt>
+                        <dd id="exam-title" class="text-lg whitespace-nowrap font-semibold">- N/A -</dd>
+                    </div>
+                    <div class="flex justify-between pt-3">
+                        <dt class="text-neutral-50 whitespace-nowrap me-5 dark:text-neutral-400">Submitted At</dt>
+                        <dd id="submission-at" class="text-lg text-end font-semibold">- N/A -</dd>
+                    </div>
+                    <div class="flex justify-between pt-3">
+                        <dt class="text-neutral-50 whitespace-nowrap me-5 dark:text-neutral-400">Evaluation Method</dt>
+                        <dd id="checking-type" class="text-lg whitespace-nowrap font-semibold">- N/A -</dd>
+                    </div>
+                    <div class="flex justify-between pt-3">
+                        <dt class="text-neutral-50 whitespace-nowrap me-5 dark:text-neutral-400">Threshold</dt>
+                        <dd id="threshold" class="text-lg whitespace-nowrap font-semibold">- N/A -</dd>
+                    </div>
+                </dl>
+                <a id="answersheet-link" href="#" target="_blank"
+                    class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                    View your answer sheet
+                </a>
+            </div>
+        </div>
+    </div>
+    <section id="eval-result" class="bg-white dark:bg-gray-900 col-span-5 lg:ps-8 lg:col-end-8">
+        <div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+            <h2 class="mb-8 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white"> Digital Evaluation
+                Result</h2>
+            <div id="result-sheet"></div>
+        </div>
+    </section>
+</div>
+{% endblock %}
+
+
+{% block scripts %}
+{{ super() }}
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    function showResult(totalMarks, manual) {
+        var variantInc = 100 / 3;
+        var safe_percentage = manual * 100 / totalMarks;
+        var percentage = Math.max(0, Math.min(100, safe_percentage));
+        
+        if (percentage !== "" &&
+            !isNaN(percentage) &&
+            percentage <= 100 &&
+            percentage >= 0) {
+
+            var waterLevel = 100 - percentage;
+            var scored = (manual).toFixed(2);
+            if (scored % 1 === 0) scored = Math.round(scored);
+
+
+            $(".ball-percent").append($("<span>").text(scored));
+            $(".ball-percent").append($("<span>").text(totalMarks));
+            $(".ball-water").css("top", waterLevel + "%");
+
+            if (safe_percentage < variantInc * 1) {
+                $(".content--area").addClass("content--unsafe");
+            } else if (safe_percentage < variantInc * 2) {
+                $(".content--area").addClass("content--doubt");
+            } else {
+                $(".content--area").addClass("content--safe");
+            }
+        } else {
+            $(".ball-water").css("top", "100%");
+            $(".ball-percent").text("NaN").css("font-size", "92px");
+            $(".content--area").addClass("content--doubt");
+        }
+
+        $(".content--area").find(".placeholder").removeClass("placeholder");
+        $(".content--area").removeClass("placeholder-glow");
+    }
+
+    function addContent(data) {
+        if (data.submission.manual_marks) {
+            $("#result-layout").removeClass('sm:grid-cols-3 lg:grid-cols-7');
+            $(".content--wrapper").addClass("py-40").removeClass("lg:fixed lg:w-80");
+            $(".content--area").addClass("flex items-center justify-evenly w-full");
+            $("dl").addClass("w-96");
+            $("#threshold").parent().remove();
+            $("#eval-result").remove();
+            showResult(data.exam.total_marks, data.submission.manual_marks);
+        } else {
+            var submitted_answers = JSON.parse(data.submission.submitted_answers);
+            var answers = JSON.parse(data.exam.answers);
+            var ans_nums = Object.keys(answers).length;
+            var marksPerQuestion = data.exam.total_marks / ans_nums;
+            var marksScored = 0;
+
+            var all_answers = Object.keys(answers).map(function (key) {
+                return key.split('_')[1];
+            });
+
+            $.each(submitted_answers, function(key, value){
+                var idx = key.split('_');
+                all_answers.splice(all_answers.indexOf(idx[1]), 1);
+                var result = data.results[key];
+                var marks = (result * marksPerQuestion).toFixed(2);
+                marksScored += parseFloat(marks);
+
+                if (marks % 1 === 0) marks = Math.round(marks);
+                
+                $("#result-sheet").append(`
+                <div class="mb-10">
+                    <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                        <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        ${idx[1]} ${marks}/${marksPerQuestion}
+                    </h3>
+                    <p class="text-gray-500 dark:text-gray-400">${value}</p>
+                </div>
+                `);
+            });
+
+            $.each(all_answers, function(key, value){
+                var result = 0;
+                var marks = (result * marksPerQuestion).toFixed(2);
+
+                if (marks % 1 === 0) marks = Math.round(marks);
+                
+                $("#result-sheet").append(`
+                <div class="mb-10">
+                    <h3 class="flex items-center mb-4 text-lg font-medium text-gray-900 dark:text-white">
+                        <svg class="flex-shrink-0 mr-2 w-5 h-5 text-gray-500 dark:text-gray-400" fill="currentColor"
+                            viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                        ${value} ${marks}/${marksPerQuestion}
+                    </h3>
+                    <p class="text-gray-500 dark:text-gray-400">Not Attempted</p>
+                </div>
+                `);
+            });
+
+            showResult(data.exam.total_marks, marksScored);
+        }
+
+        $("#threshold").html(data.threshold);
+        $("#answersheet-link").attr('href', `/static/${data.submission.file_path}`);
+        $("#total-marks").html(data.exam.total_marks);
+        $("#exam-title").html(data.exam.title);
+        $("#checking-type").html(data.submission.manual_marks ? 'Manual' : 'Automated');
+        $("#submission-at").html(data.submission.created_at);
+    }
+
+    function invalidAlert(error) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops! Something went wrong!',
+            text: error,
+            showDenyButton: true,
+            denyButtonText: 'Back to overview',
+            confirmButtonText: 'Try again',
+            allowOutsideClick: false
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location = "{{ url_for('common.submission') }}";
+            } else if (result.isDenied) {
+                window.location = "{{ url_for('common.login') }}";
+            }
+        });
+    }
+
+    $(function () {
+
+        $.ajax({
+            type: "POST",
+            url: "{{ url_for('common.result') }}",
+            contentType: "application/json",
+            data: JSON.stringify({
+                submission_id: "{{ submission_id }}"
+            }),
+            dataType: "json",
+            success: function (data, status) {
+                addContent(data);
+            },
+            error: function (xhr, status, error) {
+                var msg = JSON.parse(xhr.responseText);
+                invalidAlert(msg.error);
+            }
+        });
+    });
+</script>
+{% endblock %}

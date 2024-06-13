@@ -1,0 +1,158 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.content--wrapper {
+    display: flex;
+    background: linear-gradient(rgba(28, 28, 28, 0.3), black);
+    justify-content: center;
+    align-items: center;
+}
+
+.content--area {
+    text-align: center;
+}
+
+.liquid-ball {
+    background-color: #1a1a1a;
+    position: relative;
+    border-radius: 50%;
+    width: 250px;
+    height: 250px;
+    margin: 1rem auto;
+    transition: all 1s ease;
+}
+
+.ball-inner {
+    position: absolute;
+    overflow: hidden;
+    z-index: 2;
+    border-radius: 50%;
+    width: 240px;
+    height: 240px;
+    border: 5px solid #1a1a1a;
+    transition: all 1s ease;
+}
+
+.ball-water {
+    position: absolute;
+    z-index: 1;
+    width: 200%;
+    height: 200%;
+    left: -50%;
+    border-radius: 40%;
+    -webkit-animation-iteration-count: infinite;
+    animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+    -webkit-animation-name: spin;
+    animation-name: spin;
+    transition: all 1s ease;
+    -webkit-animation-duration: 10s;
+    animation-duration: 10s;
+}
+
+.ball-glare {
+    position: absolute;
+    top: -120%;
+    left: -120%;
+    z-index: 5;
+    width: 200%;
+    height: 200%;
+    transform: rotate(45deg);
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    transition: all 1s ease;
+}
+
+.ball-percent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 1s ease;
+}
+
+.ball-percent span {
+    font-size: 70px;
+    line-height: 75px;
+}
+
+.ball-percent span:not(:last-child) {
+    border-bottom: 5px solid;
+}
+
+.content--safe .liquid-ball {
+    border: 5px solid #53fc53;
+    box-shadow: 0 0 20px #029502;
+}
+
+.content--safe .ball-water {
+    top: 25%;
+    background: rgba(83, 252, 83, 0.5);
+    box-shadow: 0 0 20px #03bc03;
+}
+
+.content--safe .ball-percent {
+    color: #03c603;
+    text-shadow: 0 0 10px #029502;
+}
+
+.content--unsafe .liquid-ball {
+  border: 5px solid #ed3b3b;
+  box-shadow: 0 0 20px #7a0b0b;
+}
+
+.content--unsafe .ball-water {
+  top: 75%;
+  background: rgba(237, 59, 59, 0.5);
+  box-shadow: 0 0 20px #9b0e0e;
+}
+
+.content--unsafe .ball-percent {
+  color: #a30f0f;
+  text-shadow: 0 0 10px #7a0b0b;
+}
+
+.content--doubt .liquid-ball {
+  border: 5px solid #f07c3e;
+  box-shadow: 0 0 20px #7e320a;
+}
+
+.content--doubt .ball-water {
+  top: 50%;
+  background: rgba(240, 124, 62, 0.5);
+  box-shadow: 0 0 20px #a0400c;
+}
+
+.content--doubt .ball-percent {
+  color: #a8430d;
+  text-shadow: 0 0 10px #7e320a;
+}
+
+@-webkit-keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

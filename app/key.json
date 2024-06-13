@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "digital-assignment-checker",
+  "private_key_id": "c3e93272d3c468f59ebe51a4b1adfe89f954642c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQD3z2o2RZY1jpry\nq7uzEEwy8UfximTAzECz799/yQTmh0096okqch4/fcSGGQpMaR9RZM0BStSKzyNv\nrYQCQKYoJv6HvM+59awYVgT3ePIMjRMPRZd4Y+p29Nq8KlrlRQTfoBZDfp8MxYTW\nixVEsqof/KfgLKLi87h/peGbfG1poWvuGPATU3k2CfCq1SnvtEy3MUhYlSYgK078\n7Qf5dk6pQ5XGl0LTOymdWcglSd5LnxCIFO+ZdY/YYznQLK7EQJia2R5Y7VcIYz6Z\nsoX+LQDDYSIupoP0okYdGSApCaQ4Dp7v/LB5v3jlXRc4TPqZe9eAvau98XmOTucY\nIj9GzM81AgMBAAECggEAAYCdwZElGqiwAniivVsumxXLZzN87jj5dh3Q2mgll3WK\nilg5rKrfHr4XIEOr7vqpg0d71rOAG7dVx6o4UACEVrSl0RIxUDdPwSCvDFu3W/bJ\nqXYKjQ2jW5qbGOOeLsr+/zwWkSIwugBt5b8XdJXWDODt7ktW/CPuIm1Rs4JK8jD9\nS0m7Jz9ibmh96dOnm+oTpVgwlyVHkm9DmqjmW35rIARMuKBHw5L+smeey3OxAyo7\nZ6Ms14dbIiE4cCkMWvElM7ONgIU6MVTHpZ6B1SMgQLlg/ERQSeY/kKOPnIR0Xx46\nVZButEQcoBGSExgT1KLPMNYWfgvnlR63uOTBgyiCAQKBgQD+1mnduo9Ofw2+uiuC\ndbWvCFgkRP/5YVgJ55SJysNdNDocMcCwywonPT7//G+KfliaOlIImyqa4eRgknvA\nesPsSSawhffEvCzs8nksFLfcFpy0nMmCGAhkbuXxhRv80Ofh94W8EZCXeq30OM/X\nVjjkKIFiY8oi/DGJQE2wGOmSBQKBgQD48MuQ220t2uaC6n9+hO9vqqilXR27iJhm\nNM5jTEQnuiHphZa/p+rSOawMn4T7MkWqXGvUEex2lTGYx+a4LCvUJkH5zcO3Tpef\nJB4262rMSch7HQ2dpNiCLsNX0yJXySCl6O/oygUSRFRp3y0UMvTjQDeQkU6qGTks\nRJ93Lk3fcQKBgQDl5KPopU52r+PEdcqejHX0iwCI575MSObVOJcln0eTI3RwzulY\nFDL6pyPYZvBw7f4cVBSBMwnCY5pVDJCbWaS52lwOzyxvzJpyv2NUwvQClluUDAU1\nWVzozaqesUhIUGV/0n5Q5T+dh8y6Dy5gwqXcHjZqfj9yRDSj7uCmxjKfyQKBgEie\nheO1/v13c/MQ0SxpPyfGEvhaV4gTatG16dcRsngcVjQ3Iii6pUe6RzRPfI2Ctsvh\nthrhN6fIEfXNqsJjME3s8yYaHlPk+1oTQTUoK7l4dKFlcklgg0BGv/lowAX3yCxd\n7U5tUFlp0W4pCo9v5fw9CXiEyvvX69O8GQC9Yz4hAoGBAN0tAxurngS4XUGH3C0j\nWCfCRi1dOmj/vuiHtTxLhunCRYn2yejjIhy9AZUdL2idshjAVRj7fW9l94ARD+wK\nXIThORh2PeOTPQB3mDlHSc62d/xPy2W94xcZi73kPb38qEO5qWffhPGpn2idHb52\nd0tnJ+I+6C5Vr3RnowCs36c9\n-----END PRIVATE KEY-----\n",
+  "client_email": "faraz-880@digital-assignment-checker.iam.gserviceaccount.com",
+  "client_id": "100035716653136393563",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/faraz-880%40digital-assignment-checker.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

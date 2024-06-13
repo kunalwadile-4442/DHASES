@@ -1,0 +1,34 @@
+Name :- Admin
+Pass :- Admin123
+Mail :- Admin123@gmail.com
+
+
+Name :- Teacher
+Pass :- Teacher123
+Mail :- Teacher123@gmai.com
+
+Name :- Student 2
+pass :- 123
+mail :- student321@gmail.com
+
+
+
+
+Mac:-
+
+Python already cross platform support karta
+
+We don't need to use anything else
+
+Meanwhile setups are different for dependency like poppler
+
+In Mac, we have to download it from homebrew while in windows, we can download binary and then give path
+
+Window :-
+
+ windows, we can download binary and then give path
+
+
+ Common.py 118 by default role assign "teacher"
+
+ run command : python run.py

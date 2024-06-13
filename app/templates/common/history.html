@@ -1,0 +1,61 @@
+{% extends 'layouts/dashboard.html' %}
+
+{% block dashboard %}
+<h1 class="text-4xl mb-2 text-center font-semibold">Test History</h1>
+{% if student %}
+<p class="text-center text-gray-500 text-lg font-bold">{{student.username}} ({{student.email}})</p>
+{% endif %}
+
+<div class="flowbite-container mt-10">
+  {% if student %}
+  <div class="flex flex-col md:grid grid-cols-12 text-gray-50">
+    {% for submission in submissions %}
+    {% set card_color = 'green' if submission.is_passed else 'red' %}
+    <a class="flex md:contents font-semibold" href="{{ url_for('common.result', submission=submission.id) }}" target="_blank">
+      <div class="col-start-2 col-end-4 mr-10 md:mx-auto relative">
+        <div class="h-full w-6 flex items-center justify-center">
+          <div class="h-full w-1 bg-{{card_color}}-500 pointer-events-none"></div>
+        </div>
+        <div class="w-6 h-6 absolute top-1/2 -mt-3 rounded-full bg-{{card_color}}-500 shadow text-center">
+          <i class="fas fa-check-circle text-white"></i>
+        </div>
+      </div>
+      <div class="bg-{{card_color}}-500 col-start-4 col-end-12 p-4 rounded-xl my-4 mr-auto shadow-md flex items-center justify-between w-full">
+        <div>
+          <h3 class="font-semibold text-md mb-1">Submission Received for {{submission.exam.title}}</h3>
+          <p class="text-sm leading-tight text-justify w-full">
+            <span>{{ submission.submitted_at }}</span>
+          </p>
+        </div>
+        <div>
+          {{ 'Manually Marked' if submission.manual_marks else 'Auto Marked' }}
+        </div>
+      </div>
+    </a>
+    {% else %}
+      <div class="bg-gray-500 col-start-2 col-end-12 p-4 rounded-xl my-4 mr-auto shadow-md flex items-center justify-between w-full">
+        <div class="text-center mx-auto">
+          <h3 class="font-semibold text-md mb-1">No Submission Received</h3>
+          <p class="text-sm leading-tight text-justify w-full">
+            <span>There is no submission received for any exam.</span>
+          </p>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="grid max-w-screen-md gap-8 mx-auto text-gray-900 sm:grid-cols-3 dark:text-white">
+    {% for user in users %}
+    <a href="{{url_for('common.history', student=user.id)}}" class="py-8 flex flex-col items-center justify-center p-4 border text-center border-slate-700 space-y-4 bg-white rounded-lg shadow-lg dark:bg-gray-800">
+        <dt class="text-2xl md:text-3xl font-extrabold">{{user.username}}</dt>
+        <dd class="font-light text-gray-500 dark:text-gray-400">{{user.email}}</dd>
+    </a>
+    {% else %}
+    <div class="py-8 flex flex-col items-center justify-center p-4 border text-center border-slate-700 space-y-4 bg-white rounded-lg shadow-lg dark:bg-gray-800 col-span-3">
+        <dt class="text-2xl md:text-3xl font-extrabold">No Student Found</dt>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

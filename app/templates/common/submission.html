@@ -1,0 +1,63 @@
+{% extends 'layouts/dashboard.html' %}
+
+{% block dashboard %}
+<form action="{{ url_for('common.submission') }}" method="POST" enctype="multipart/form-data">
+    <div class="flex flex-col items-center justify-center gap-4 w-full">
+        <label for="dropzone-file"
+            class="flex flex-col items-center justify-center w-full h-96 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                </svg>
+                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Click to
+                        upload</span> or drag and drop</p>
+                <p class="text-xs text-gray-500 dark:text-gray-400">Answer sheets should be in PDF format</p>
+            </div>
+            <input id="dropzone-file" type="file" name="file" accept="application/pdf" class="hidden">
+        </label>
+        {% set grid_cols = 2 if current_user.role == 'student' else 3 %}
+        <div class="grid grid-cols-1 gap-4 sm:grid-cols-{{grid_cols}} w-full">
+            <input type="text" id="filename" placeholder="Please upload a file" readonly
+                    class="col-span-{{grid_cols}} w-full px-4 py-2 text-sm border bg-gray-300 border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-800">
+            <select name="exam" id="exam"
+                class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-800"
+                required>
+                <option value="" selected disabled>Select Test</option>
+                {% for exam in exams %}
+                <option value="{{ exam.id }}">{{ exam.title }} (Total Marks: {{ exam.total_marks }} | Total Questions: {{ exam.answer_obj|length }})</option>
+                {% endfor %}
+            </select>
+            {% if current_user.role == 'student' %}
+            <input type="hidden" name="student" value="{{ current_user.id }}">
+            {% else %}
+            <select name="student" id="student"
+                class="w-full px-4 py-2 text-sm border border-gray-300 rounded-lg focus:ring-4 focus:outline-none focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-800"
+                required>
+                <option value="" selected disabled>Select Student</option>
+                {% for student in students %}
+                <option value="{{ student.id }}">{{ student.username }}</option>
+                {% endfor %}
+            </select>
+            {% endif %}
+            <button type="submit"
+                class="text-white bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Click
+                here to submit your answer sheet</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block scripts %}
+{{super()}}
+<script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#dropzone-file').change(function (e) {
+            var fileName = e.target.files[0].name;
+            $('#filename').val(fileName);
+        });
+    });
+</script>
+{% endblock %}

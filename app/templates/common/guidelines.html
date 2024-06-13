@@ -1,0 +1,49 @@
+{% extends 'layouts/master.html' %}
+
+{% block title %}Guidelines | Handwritten Answersheet Grader{% endblock %}
+
+{% block content %}
+<section class="bg-gray-50 dark:bg-gray-900">
+    <div class="flex flex-col items-center justify-center px-6 py-16 mx-auto lg:py-4">
+        <a href="#" class="flex items-center mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
+            <img class="w-8 h-8 mr-2" src="{{ url_for('static', filename='logo.svg') }}" alt="logo">
+            DHASES
+        </a>
+        <div class="text-center mb-6">Digital Handwritten Answer<br>Sheet Evaluation System</div>
+        <div class="w-full p-6 bg-white rounded-lg shadow-md dark:bg-gray-800 text-center">
+            <h1 class="text-3xl font-semibold text-gray-800 dark:text-white">Guidelines</h1>
+            <p class="mt-4 text-gray-600 dark:text-gray-400">
+                <ul class="list-disc list-inside">
+                    <li>Upload the answer sheet in the form of an image.</li>
+                    <li>Make sure the image is clear and the text is readable.</li>
+                    <li>Make sure the image is not too large.</li>
+                    <li>Make sure the image is not too small.</li>
+                    <li>Make sure the image is not too blurry.</li>
+                    <li>Make sure the image is not too bright.</li>
+                    <li>Make sure the image is not too dark.</li>
+                    <li>Make sure the image is not too tilted.</li>
+                    <li>Make sure the image is not too skewed.</li>
+                    <li>Make sure the image is not too rotated.</li>
+                    <li>Make sure the image is not too noisy.</li>
+                    <li>Make sure the image is not too compressed.</li>
+                    <li>Make sure the image is not too stretched.</li>
+                    <li>Make sure the image is not too squeezed.</li>
+                    <li>Make sure the image is not too distorted.</li>
+                    <li>Make sure the image is not too pixelated.</li>
+                    <li>Make sure the image is not too grainy.</li>
+                    <li>Make sure the image is not too overexposed.</li>
+                    <li>Make sure the image is not too underexposed.</li>
+                    <li>Make sure the image is not too saturated.</li>
+                    <li>Make sure the image is not too desaturated.</li>
+                    <li>Make sure the image is not too contrasty.</li>
+                    <li>Make sure the image is not too brightened.</li>
+                    <li>Make sure the image is not too darkened.</li>
+                    <li>Make sure the image is not too sharpened.</li>
+                    <li>Make sure the image is not too blurred.</li>
+                    <li>Make sure the image is not too filtered.</li>
+                </ul>
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

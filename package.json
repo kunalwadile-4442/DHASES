@@ -1,0 +1,22 @@
+{
+  "name": "ocrproject",
+  "version": "1.0.0",
+  "description": "Digital answer sheet checking system",
+  "scripts": {
+    "dev:flask": "export FLASK_APP=app.py && export FLASK_ENV=development && flask run",
+    "dev:tailwind": "npx tailwindcss -i ./app/static/src/input.css -o ./app/static/dist/css/theme.css --watch",
+    "dev:linux": "source venv/bin/activate && concurrently \"npm run dev:flask\" \"npm run dev:tailwind\"",
+    "dev:win": "venv\\Scripts\\activate && concurrently \"npm run dev:flask\" \"npm run dev:tailwind\"",
+    "start": "npm run dev:win"
+  },
+  "keywords": [],
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.0.2",
+    "tailwindcss": "^3.3.5"
+  },
+  "dependencies": {
+    "flowbite": "^2.2.0"
+  }
+}
